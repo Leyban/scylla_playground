@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  scylla1:
+    image: scylladb/scylla
+    container_name: scylla1
+    command:
+      - --seeds=scylla1
+      - --smp 2
+    volumes:
+      - scylla-data-1:/var/lib/scylla
+      - type: bind
+        source: ./properties/dc1
+        target: /etc/scylla/cassandra-rackdc.properties
+      - type: bind
+        source: ./properties/scylla.yaml
+        target: /etc/scylla/scylla.yaml
+    networks:
+      scylla-path:
+  
+  scylla2:
+    image: scylladb/scylla
+    container_name: scylla2
+    command: 
+      - --seeds=scylla1
+      - --smp 2
+    volumes:
+      - scylla-data-2:/var/lib/scylla
+      - type: bind
+        source: ./properties/dc1
+        target: /etc/scylla/cassandra-rackdc.properties
+      - type: bind
+        source: ./properties/scylla.yaml
+        target: /etc/scylla/scylla.yaml
+    networks:
+      scylla-path:
+
+  scylla3:
+    image: scylladb/scylla
+    container_name: scylla3
+    command: 
+      - --seeds=scylla1
+      - --smp 2
+    volumes:
+      - scylla-data-3:/var/lib/scylla
+      - type: bind
+        source: ./properties/dc1
+        target: /etc/scylla/cassandra-rackdc.properties
+      - type: bind
+        source: ./properties/scylla.yaml
+        target: /etc/scylla/scylla.yaml
+    networks:
+      scylla-path:
+
+volumes:
+  scylla-data-1:
+  scylla-data-2:
+  scylla-data-3:
+
+networks:
+  scylla-path:
+    driver: bridge

@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  scylla4:
+    image: scylladb/scylla
+    container_name: scylla4
+    command:
+      - --seeds=scylla1
+      - --smp 2
+    volumes:
+      - scylla-data-4:/var/lib/scylla
+      - ${PWD}/properties/dc2:/etc/scylla/cassandra-rackdc.properties
+      - ${PWD}/properties/scylla.yaml:/etc/scylla/scylla.yaml
+    networks:
+      scylla-path:
+
+  scylla5:
+    image: scylladb/scylla
+    container_name: scylla5
+    command: 
+      - --seeds=scylla1
+      - --smp 2
+    volumes:
+      - scylla-data-5:/var/lib/scylla
+      - ${PWD}/properties/dc2:/etc/scylla/cassandra-rackdc.properties
+      - ${PWD}/properties/scylla.yaml:/etc/scylla/scylla.yaml
+    networks:
+      scylla-path:
+
+  scylla6:
+    image: scylladb/scylla
+    container_name: scylla6
+    command: 
+      - --seeds=scylla1
+      - --smp 2
+    volumes:
+      - scylla-data-6:/var/lib/scylla
+      - ${PWD}/properties/dc2:/etc/scylla/cassandra-rackdc.properties
+      - ${PWD}/properties/scylla.yaml:/etc/scylla/scylla.yaml
+    networks:
+      scylla-path:
+
+volumes:
+  scylla-data-4:
+  scylla-data-5:
+  scylla-data-6:
+
+networks:
+  scylla-path:
+    driver: bridge
